@@ -1,0 +1,22 @@
+### Get Request
+GET http://10.88.0.3:8080
+Content-Type: application/json
+
+### Post Request
+POST http://localhost:5000/solve-question
+Content-Type: application/json
+
+{
+    "question": "What is the derivative of x^2 + 3x + 2?"
+}
+
+### Put Request
+PUT https://jsonplaceholder.typicode.com/posts/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "title": "updated title",
+    "body": "updated body",
+    "userId": 1
+}
