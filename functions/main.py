@@ -18,7 +18,8 @@ app = flask.Flask(__name__)
 def hello_world() :
     return "Hello World! FLASK"
 
+#main url for student question bank back end
 @https_fn.on_request()
-def on_request_example(req: https_fn.Request) -> https_fn.Response:
+def student_qb_be(req: https_fn.Request) -> https_fn.Response:
      with app.request_context(req.environ):
         return app.full_dispatch_request()
