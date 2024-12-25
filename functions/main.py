@@ -4,10 +4,21 @@
 
 from firebase_functions import https_fn
 from firebase_admin import initialize_app
+import flask
+
+
 
 initialize_app()
 
 
+app = flask.Flask(__name__)
+
+
+@app.get("/")
+def hello_world() :
+    return "Hello World! FLASK"
+
 @https_fn.on_request()
 def on_request_example(req: https_fn.Request) -> https_fn.Response:
-    return https_fn.Response("Hello world!")
+     with app.request_context(req.environ):
+        return app.full_dispatch_request()
