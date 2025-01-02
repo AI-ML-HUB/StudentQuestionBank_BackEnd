@@ -18,19 +18,12 @@ from googleapiclient.http import MediaIoBaseDownload
 
 
 
+SERVICE_ACCOUNT = SecretParam('SERVICE_ACCOUNT')
+
 initialize_app()
 
 # Set up Google Drive API
 
-SERVICE_ACCOUNT = SecretParam('SERVICE_ACCOUNT')
-SCOPES = ['https://www.googleapis.com/auth/drive']
-
-credentials = service_account.Credentials.from_service_account_info(
-    json.loads(SERVICE_ACCOUNT.value),
-    scopes=SCOPES
-)
-
-drive_service = build('drive', 'v3', credentials=credentials)
 
 
 app = flask.Flask(__name__)
@@ -42,6 +35,16 @@ def hello_world() :
 
 @app.route('/file-uploaded', methods=['POST'])
 def file_uploaded():
+    
+    scopes = ['https://www.googleapis.com/auth/drive']
+
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(SERVICE_ACCOUNT.value),
+        scopes=scopes
+    )
+
+    drive_service = build('drive', 'v3', credentials=credentials)
+
     # Parse the request body
     notification_data = request.json
     print(f"Notification received: {notification_data}")
@@ -72,7 +75,7 @@ def download_file(file_name, request_file):
             print(f"Download progress: {int(status.progress() * 100)}%")
     
 #main url for student question bank back end
-@https_fn.on_request()
+@https_fn.on_request(secrets=[SERVICE_ACCOUNT])
 def student_qb_be(req: https_fn.Request) -> https_fn.Response:
      with app.request_context(req.environ):
         return app.full_dispatch_request()
