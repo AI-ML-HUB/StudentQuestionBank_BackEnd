@@ -21,11 +21,11 @@ initialize_app()
 
 # Set up Google Drive API
 
-SERVICE_ACCOUNT = json.loads(SecretParam('SERVICE_ACCOUNT'))
+SERVICE_ACCOUNT = SecretParam('SERVICE_ACCOUNT')
 SCOPES = ['https://www.googleapis.com/auth/drive']
 
 credentials = service_account.Credentials.from_service_account_info(
-    SERVICE_ACCOUNT,
+    json.loads(SERVICE_ACCOUNT.value),
     scopes=SCOPES
 )
 
