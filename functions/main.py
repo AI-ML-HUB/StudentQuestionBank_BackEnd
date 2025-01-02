@@ -9,6 +9,7 @@ from firebase_functions.params import SecretParam
 import flask
 from flask import request
 import json
+import os
 
 from google.oauth2 import service_account
 from google.auth import default
@@ -25,7 +26,7 @@ SERVICE_ACCOUNT = SecretParam('SERVICE_ACCOUNT')
 SCOPES = ['https://www.googleapis.com/auth/drive']
 
 credentials = service_account.Credentials.from_service_account_info(
-    json.loads(SERVICE_ACCOUNT.value),
+    json.loads(os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')),
     scopes=SCOPES
 )
 
