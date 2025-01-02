@@ -19,7 +19,7 @@ initialize_app()
 
 # Set up Google Drive API
 SERVICE_ACCOUNT_FILE = 'service_account.json'
-SCOPES = ['https://www.googleapis.com/auth/drive']
+SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 credentials, project = default(
      scopes=SCOPES
