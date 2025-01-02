@@ -8,7 +8,7 @@ from firebase_functions.params import SecretParam
 
 import flask
 from flask import request
-import os
+import json
 
 from google.oauth2 import service_account
 from google.auth import default
@@ -21,7 +21,7 @@ initialize_app()
 
 # Set up Google Drive API
 
-SERVICE_ACCOUNT = SecretParam('SERVICE_ACCOUNT')
+SERVICE_ACCOUNT = json.loads(SecretParam('SERVICE_ACCOUNT'))
 SCOPES = ['https://www.googleapis.com/auth/drive']
 
 credentials = service_account.Credentials.from_service_account_info(
