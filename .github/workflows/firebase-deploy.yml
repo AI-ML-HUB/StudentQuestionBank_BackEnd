@@ -1,0 +1,43 @@
+name: Deploy Firebase Functions
+
+on:
+  push:
+    branches:
+      - main  # Replace 'main' with your branch name if different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9' # Match your Python version
+
+    - name: Install Firebase CLI
+      run: npm install -g firebase-tools
+
+    - name: Authenticate with Firebase
+      env:
+        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      run: |
+        echo "$FIREBASE_SERVICE_ACCOUNT" > firebase-service-account.json
+        firebase auth:login:ci --project ${{ secrets.FIREBASE_PROJECT_ID }}
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+      working-directory: ./functions # Adjust if your functions directory is not in ./functions
+
+    - name: Deploy to Firebase
+      env:
+        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      run: |
+        echo "$FIREBASE_SERVICE_ACCOUNT" > firebase-service-account.json
+        firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
