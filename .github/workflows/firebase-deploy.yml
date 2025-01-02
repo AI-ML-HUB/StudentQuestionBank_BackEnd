@@ -23,10 +23,10 @@ jobs:
 
     - name: Authenticate with Firebase
       env:
-        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
       run: |
-        echo "$FIREBASE_SERVICE_ACCOUNT" > firebase-service-account.json
-        firebase auth:login:ci --project ${{ secrets.FIREBASE_PROJECT_ID }}
+        echo "$GOOGLE_APPLICATION_CREDENTIALS" > service-account.json
+        export GOOGLE_APPLICATION_CREDENTIALS=service-account.json
 
     - name: Install dependencies
       run: |
@@ -37,7 +37,5 @@ jobs:
 
     - name: Deploy to Firebase
       env:
-        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-      run: |
-        echo "$FIREBASE_SERVICE_ACCOUNT" > firebase-service-account.json
-        firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
+        GOOGLE_APPLICATION_CREDENTIALS: service-account.json
+      run: firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
