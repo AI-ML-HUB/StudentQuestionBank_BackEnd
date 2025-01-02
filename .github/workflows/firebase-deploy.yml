@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main  # Replace 'main' with your branch name if different
+  workflow_dispatch: # Add this line to allow manual runs
 
 jobs:
   deploy:
