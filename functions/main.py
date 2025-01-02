@@ -4,6 +4,8 @@
 
 from firebase_functions import https_fn
 from firebase_admin import initialize_app
+from firebase_functions.params import SecretParam
+
 import flask
 from flask import request
 import os
@@ -18,11 +20,13 @@ from googleapiclient.http import MediaIoBaseDownload
 initialize_app()
 
 # Set up Google Drive API
-SERVICE_ACCOUNT_FILE = 'service_account.json'
-SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
-credentials, project = default(
-     scopes=SCOPES
+SERVICE_ACCOUNT = SecretParam('SERVICE_ACCOUNT')
+SCOPES = ['https://www.googleapis.com/auth/drive']
+
+credentials = service_account.Credentials.from_service_account_info(
+    SERVICE_ACCOUNT,
+    scopes=SCOPES
 )
 
 drive_service = build('drive', 'v3', credentials=credentials)
