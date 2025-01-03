@@ -42,35 +42,24 @@ def file_uploaded():
     #get_drive_service()
 
     try:
-        # Parse the notification headers
-        channel_id = request.headers.get('X-Goog-Channel-ID')
-        resource_id = request.headers.get('X-Goog-Resource-ID')
-        resource_state = request.headers.get('X-Goog-Resource-State')
-        message_number = request.headers.get('X-Goog-Message-Number')
+        
 
-        # Log the notification details
-        print(f"Received notification - Channel ID: {channel_id}, Resource ID: {resource_id}, Resource State: {resource_state}, Message Number: {message_number}")
+        # Get file metadata
+        uploaded_files = get_recent_files_in_folder()
+        for file in uploaded_files:
+            print(f"New file uploaded: {file['name']} (ID: {file['id']})")
 
-        if resource_id :
-            # Get file metadata
-            uploaded_files = get_recent_files_in_folder(resource_id)
-            for file in uploaded_files:
-                print(f"New file uploaded: {file['name']} (ID: {file['id']})")
+        # Optional: Download the file
+        #request_file = drive_service.files().get_media(fileId=file_id)
+        #download_file(file_name, request_file)
 
-            # Optional: Download the file
-            #request_file = drive_service.files().get_media(fileId=file_id)
-            #download_file(file_name, request_file)
-
-            return f"Files processed successfully.", 200
-        else:
-            print("resource_id does not exist")
-            return "resource_id does not exist", 400
+        return f"Files processed successfully.", 200
 
     except Exception as e:
         print(f"Error processing notification: {e}")
         return jsonify({"status": "error", "message": "Failed to process notification."}), 500
 
-def get_recent_files_in_folder(folder_id):
+def get_recent_files_in_folder():
     """
     Fetch recently uploaded files in a folder.
     :param folder_id: ID of the Google Drive folder.
@@ -83,8 +72,8 @@ def get_recent_files_in_folder(folder_id):
         # Build the Google Drive API client
         service = build('drive', 'v3', credentials=credentials)
 
-        # Define a time window to identify recent changes (e.g., last 5 minutes)
-        time_window = datetime.now(timezone.utc) - timedelta(minutes=1)
+        # Define a time window to identify recent changes (e.g., last 8 hours)
+        time_window = datetime.now(timezone.utc) - timedelta(minutes=480)
         time_window_str = time_window.isoformat() 
 
         # Query for files in the folder modified within the time window
