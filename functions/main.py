@@ -7,7 +7,7 @@ from firebase_admin import initialize_app
 from firebase_functions.params import SecretParam
 
 import flask
-from flask import request
+from flask import request, jsonify
 import json
 import os
 
@@ -15,10 +15,13 @@ from google.oauth2 import service_account
 from google.auth import default
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
+from googleapiclient.errors import HttpError
+from datetime import datetime, timedelta, timezone
 
 
 
 SERVICE_ACCOUNT = SecretParam('SERVICE_ACCOUNT')
+FOLDER_ID = '1-vdHwarvsDgqTCGZaheZMEz0js4e3sYl'
 
 initialize_app()
 
@@ -36,6 +39,77 @@ def hello_world() :
 @app.route('/file-uploaded', methods=['POST'])
 def file_uploaded():
     
+    #get_drive_service()
+
+    try:
+        # Parse the notification headers
+        channel_id = request.headers.get('X-Goog-Channel-ID')
+        resource_id = request.headers.get('X-Goog-Resource-ID')
+        resource_state = request.headers.get('X-Goog-Resource-State')
+        message_number = request.headers.get('X-Goog-Message-Number')
+
+        # Log the notification details
+        print(f"Received notification - Channel ID: {channel_id}, Resource ID: {resource_id}, Resource State: {resource_state}, Message Number: {message_number}")
+
+        if resource_id :
+            # Get file metadata
+            uploaded_files = get_recent_files_in_folder(resource_id)
+            for file in uploaded_files:
+                print(f"New file uploaded: {file['name']} (ID: {file['id']})")
+
+            # Optional: Download the file
+            #request_file = drive_service.files().get_media(fileId=file_id)
+            #download_file(file_name, request_file)
+
+            return f"Files processed successfully.", 200
+        else:
+            print("resource_id does not exist")
+            return "resource_id does not exist", 400
+
+    except Exception as e:
+        print(f"Error processing notification: {e}")
+        return jsonify({"status": "error", "message": "Failed to process notification."}), 500
+
+def get_recent_files_in_folder(folder_id):
+    """
+    Fetch recently uploaded files in a folder.
+    :param folder_id: ID of the Google Drive folder.
+    :return: List of recently added files.
+    """
+    try:
+        # Load credentials from a service account JSON file
+        credentials = get_default_cred()
+
+        # Build the Google Drive API client
+        service = build('drive', 'v3', credentials=credentials)
+
+        # Define a time window to identify recent changes (e.g., last 5 minutes)
+        time_window = datetime.now(timezone.utc) - timedelta(minutes=1)
+        time_window_str = time_window.isoformat() 
+
+        # Query for files in the folder modified within the time window
+        query = f"'{FOLDER_ID}' in parents and trashed = false and modifiedTime > '{time_window_str}'"
+        print(f"google account - {get_service_account_email(credentials)}")
+        print(f"Query - '{query}'")
+        results = service.files().list(q=query, fields="files(id, name)").execute()
+
+        return results.get('files', [])
+
+    except Exception as error:
+        print(f"Error fetching recent files: {error}")
+        return []
+
+def get_service_account_email(credentials):
+
+    # Check if credentials have a client_email attribute
+    if hasattr(credentials, 'service_account_email'):
+        return credentials.service_account_email
+    elif hasattr(credentials, 'client_email'):
+        return credentials.client_email
+    else:
+        return "Email not available for these credentials"
+
+def get_cred():
     scopes = ['https://www.googleapis.com/auth/drive']
 
     credentials = service_account.Credentials.from_service_account_info(
@@ -43,29 +117,26 @@ def file_uploaded():
         scopes=scopes
     )
 
-    drive_service = build('drive', 'v3', credentials=credentials)
+    return credentials
 
-    # Parse the request body
-    notification_data = request.json
-    print(f"Notification received: {notification_data}")
+def get_default_cred():
+    credentials, _ = default()
+    return credentials
+    
+def get_file_name(resource_id):
+    """Fetch the file name using the resource ID."""
+    try:
+        # Authenticate and initialize the Drive API client
+        credentials, _ = default()
+        service = build('drive', 'v3', credentials=credentials)
 
-    # Get file ID from the notification
-    file_id = notification_data.get('fileId')
-
-    if file_id:
-        # Get file metadata
-        file_metadata = drive_service.files().get(fileId=file_id).execute()
-        file_name = file_metadata.get('name')
-        print(f"File uploaded: {file_name}")
-
-        # Optional: Download the file
-        #request_file = drive_service.files().get_media(fileId=file_id)
-        #download_file(file_name, request_file)
-
-        return f"File {file_name} processed successfully.", 200
-    else:
-        return "File ID not found in notification.", 400
-
+        # Retrieve the file metadata
+        file_metadata = service.files().get(fileId=resource_id, fields="name").execute()
+        return file_metadata.get('name', 'Unknown File')
+    except HttpError as error:
+        print(f"Failed to fetch file metadata: {error}")
+        return 'Unknown File'
+    
 def download_file(file_name, request_file):
     with open(file_name, 'wb') as file:
         downloader = MediaIoBaseDownload(file, request_file)

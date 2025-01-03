@@ -1,0 +1,167 @@
+[debug] [2025-01-03T08:10:17.035Z] ----------------------------------------------------------------------
+[debug] [2025-01-03T08:10:17.051Z] Command:       /usr/local/share/nvm/versions/node/v20.18.1/bin/node /home/codespace/nvm/current/bin/firebase deploy --only functions --project studentquestionbank-2b545
+[debug] [2025-01-03T08:10:17.051Z] CLI Version:   13.29.1
+[debug] [2025-01-03T08:10:17.051Z] Platform:      linux
+[debug] [2025-01-03T08:10:17.051Z] Node Version:  v20.18.1
+[debug] [2025-01-03T08:10:17.051Z] Time:          Fri Jan 03 2025 08:10:17 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-01-03T08:10:17.051Z] Env Overrides: GITHUB_API_URL, GITHUB_API_URL
+[debug] [2025-01-03T08:10:17.051Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-01-03T08:10:17.190Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-01-03T08:10:17.190Z] > authorizing via signed-in user (senapati.arnab@gmail.com)
+[debug] [2025-01-03T08:10:17.190Z] [iam] checking project studentquestionbank-2b545 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2025-01-03T08:10:17.191Z] Checked if tokens are valid: false, expires at: 1735888858347
+[debug] [2025-01-03T08:10:17.191Z] Checked if tokens are valid: false, expires at: 1735888858347
+[debug] [2025-01-03T08:10:17.191Z] > refreshing access token with scopes: []
+[debug] [2025-01-03T08:10:17.193Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-01-03T08:10:17.193Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-01-03T08:10:17.400Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-01-03T08:10:17.400Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-01-03T08:10:17.406Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/studentquestionbank-2b545:testIamPermissions [none]
+[debug] [2025-01-03T08:10:17.406Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/studentquestionbank-2b545:testIamPermissions x-goog-quota-user=projects/studentquestionbank-2b545
+[debug] [2025-01-03T08:10:17.406Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/studentquestionbank-2b545:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-01-03T08:10:18.866Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/studentquestionbank-2b545:testIamPermissions 200
+[debug] [2025-01-03T08:10:18.866Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/studentquestionbank-2b545:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2025-01-03T08:10:18.866Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:18.867Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:18.867Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/studentquestionbank-2b545/serviceAccounts/studentquestionbank-2b545@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-01-03T08:10:18.867Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/studentquestionbank-2b545/serviceAccounts/studentquestionbank-2b545@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-01-03T08:10:20.556Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/studentquestionbank-2b545/serviceAccounts/studentquestionbank-2b545@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-01-03T08:10:20.556Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/studentquestionbank-2b545/serviceAccounts/studentquestionbank-2b545@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[info] 
+[info] === Deploying to 'studentquestionbank-2b545'...
+[info] 
+[info] i  deploying functions 
+[debug] [2025-01-03T08:10:20.559Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:20.559Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:20.559Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/studentquestionbank-2b545 [none]
+[debug] [2025-01-03T08:10:20.880Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/studentquestionbank-2b545 200
+[debug] [2025-01-03T08:10:20.880Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/studentquestionbank-2b545 {"projectNumber":"626910663524","projectId":"studentquestionbank-2b545","lifecycleState":"ACTIVE","name":"StudentQuestionBank","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2024-12-24T06:19:19.925197Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-01-03T08:10:20.882Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:20.882Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:20.882Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:20.882Z] Checked if tokens are valid: true, expires at: 1735895416401
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-01-03T08:10:20.882Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:20.882Z] Checked if tokens are valid: true, expires at: 1735895416401
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-01-03T08:10:20.883Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:20.883Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:20.883Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-01-03T08:10:20.883Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/studentquestionbank-2b545
+[debug] [2025-01-03T08:10:20.884Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-01-03T08:10:20.884Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/studentquestionbank-2b545
+[debug] [2025-01-03T08:10:20.885Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/cloudbuild.googleapis.com [none]
+[debug] [2025-01-03T08:10:20.885Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/cloudbuild.googleapis.com x-goog-quota-user=projects/studentquestionbank-2b545
+[debug] [2025-01-03T08:10:20.886Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/artifactregistry.googleapis.com [none]
+[debug] [2025-01-03T08:10:20.886Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/artifactregistry.googleapis.com x-goog-quota-user=projects/studentquestionbank-2b545
+[debug] [2025-01-03T08:10:22.630Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/runtimeconfig.googleapis.com 200
+[debug] [2025-01-03T08:10:22.630Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-01-03T08:10:22.644Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/cloudfunctions.googleapis.com 200
+[debug] [2025-01-03T08:10:22.644Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/cloudfunctions.googleapis.com [omitted]
+[info] ✔  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-01-03T08:10:22.645Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/cloudbuild.googleapis.com 200
+[debug] [2025-01-03T08:10:22.646Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/cloudbuild.googleapis.com [omitted]
+[info] ✔  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-01-03T08:10:22.672Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/artifactregistry.googleapis.com 200
+[debug] [2025-01-03T08:10:22.672Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/artifactregistry.googleapis.com [omitted]
+[info] ✔  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-01-03T08:10:22.673Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:22.673Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:22.673Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/studentquestionbank-2b545/adminSdkConfig [none]
+[debug] [2025-01-03T08:10:23.364Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/studentquestionbank-2b545/adminSdkConfig 200
+[debug] [2025-01-03T08:10:23.365Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/studentquestionbank-2b545/adminSdkConfig {"projectId":"studentquestionbank-2b545","storageBucket":"studentquestionbank-2b545.firebasestorage.app"}
+[debug] [2025-01-03T08:10:23.365Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:23.365Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:23.365Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/studentquestionbank-2b545/configs [none]
+[debug] [2025-01-03T08:10:23.817Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/studentquestionbank-2b545/configs 200
+[debug] [2025-01-03T08:10:23.817Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/studentquestionbank-2b545/configs {}
+[debug] [2025-01-03T08:10:23.818Z] Customer code is not Node
+[debug] [2025-01-03T08:10:23.819Z] Validating python source
+[debug] [2025-01-03T08:10:23.819Z] Building python source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-01-03T08:10:23.820Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-01-03T08:10:23.825Z] Running command with virtualenv: command=., args=["\"/workspaces/StudentQuestionBank_BackEnd/functions/venv/bin/activate\"","&&","python3.12","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-01-03T08:10:24.056Z] stdout: /workspaces/StudentQuestionBank_BackEnd/functions/venv/lib/python3.12/site-packages/firebase_functions
+
+[debug] [2025-01-03T08:10:24.060Z] Running admin server with args: ["python3.12","\"/workspaces/StudentQuestionBank_BackEnd/functions/venv/lib/python3.12/site-packages/firebase_functions/private/serving.py\""] and env: {"FIREBASE_CONFIG":"{\"projectId\":\"studentquestionbank-2b545\",\"storageBucket\":\"studentquestionbank-2b545.firebasestorage.app\"}","GCLOUD_PROJECT":"studentquestionbank-2b545","GOOGLE_CLOUD_QUOTA_PROJECT":"studentquestionbank-2b545","ADMIN_PORT":"8081"} in /workspaces/StudentQuestionBank_BackEnd/functions
+[debug] [2025-01-03T08:10:24.060Z] Running command with virtualenv: command=., args=["\"/workspaces/StudentQuestionBank_BackEnd/functions/venv/bin/activate\"","&&","python3.12","\"/workspaces/StudentQuestionBank_BackEnd/functions/venv/lib/python3.12/site-packages/firebase_functions/private/serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+
+[error] Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [03/Jan/2025 08:10:26] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2025-01-03T08:10:26.581Z] Got response from /__/functions.yaml endpoints:
+  student_qb_be:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: student_qb_be
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables:
+    - key: SERVICE_ACCOUNT
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params:
+- name: SERVICE_ACCOUNT
+  type: secret
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [03/Jan/2025 08:10:26] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[error] Terminated
+
+[debug] [2025-01-03T08:10:26.603Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:26.604Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:26.604Z] >>> [apiv2][query] GET https://secretmanager.googleapis.com/v1/projects/studentquestionbank-2b545/secrets/SERVICE_ACCOUNT [none]
+[debug] [2025-01-03T08:10:27.096Z] <<< [apiv2][status] GET https://secretmanager.googleapis.com/v1/projects/studentquestionbank-2b545/secrets/SERVICE_ACCOUNT 200
+[debug] [2025-01-03T08:10:27.097Z] <<< [apiv2][body] GET https://secretmanager.googleapis.com/v1/projects/studentquestionbank-2b545/secrets/SERVICE_ACCOUNT {"name":"projects/626910663524/secrets/SERVICE_ACCOUNT","replication":{"automatic":{}},"createTime":"2025-01-02T11:51:49.868455Z","etag":"\"162ab7c9989fa7\""}
+[debug] [2025-01-03T08:10:27.097Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:27.097Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:27.097Z] >>> [apiv2][query] GET https://secretmanager.googleapis.com/v1/projects/studentquestionbank-2b545/secrets/SERVICE_ACCOUNT/versions/latest [none]
+[debug] [2025-01-03T08:10:27.450Z] <<< [apiv2][status] GET https://secretmanager.googleapis.com/v1/projects/studentquestionbank-2b545/secrets/SERVICE_ACCOUNT/versions/latest 200
+[debug] [2025-01-03T08:10:27.450Z] <<< [apiv2][body] GET https://secretmanager.googleapis.com/v1/projects/studentquestionbank-2b545/secrets/SERVICE_ACCOUNT/versions/latest {"name":"projects/626910663524/secrets/SERVICE_ACCOUNT/versions/1","createTime":"2025-01-02T11:51:53.856584Z","state":"ENABLED","replicationStatus":{"automatic":{}},"etag":"\"162ab7c9d57a48\"","clientSpecifiedPayloadChecksum":true}
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged /workspaces/StudentQuestionBank_BackEnd/functions (6.41 KB) for uploading 
+[debug] [2025-01-03T08:10:27.471Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:27.471Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:27.472Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/studentquestionbank-2b545/locations/-/functions [none]
+[debug] [2025-01-03T08:10:28.356Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/studentquestionbank-2b545/locations/-/functions 200
+[debug] [2025-01-03T08:10:28.356Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/studentquestionbank-2b545/locations/-/functions {}
+[debug] [2025-01-03T08:10:28.357Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:28.357Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:28.357Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/studentquestionbank-2b545/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2025-01-03T08:10:29.937Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/studentquestionbank-2b545/locations/-/functions 200
+[debug] [2025-01-03T08:10:29.937Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/studentquestionbank-2b545/locations/-/functions {"functions":[{"name":"projects/studentquestionbank-2b545/locations/us-central1/functions/student_qb_be","buildConfig":{"build":"projects/626910663524/locations/us-central1/builds/b9422782-d9a6-4934-a962-9c9915138b57","runtime":"python312","entryPoint":"student_qb_be","source":{"storageSource":{"bucket":"gcf-v2-sources-626910663524-us-central1","object":"student_qb_be/function-source.zip","generation":"1735886928883844"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/studentquestionbank-2b545/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-626910663524-us-central1","object":"student_qb_be/function-source.zip","generation":"1735886928883844"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/studentquestionbank-2b545/serviceAccounts/626910663524-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/studentquestionbank-2b545/locations/us-central1/services/student-qb-be","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"studentquestionbank-2b545\",\"storageBucket\":\"studentquestionbank-2b545.firebasestorage.app\"}","GCLOUD_PROJECT":"studentquestionbank-2b545","EVENTARC_CLOUD_EVENT_SOURCE":"projects/studentquestionbank-2b545/locations/us-central1/services/student_qb_be","FUNCTION_TARGET":"student_qb_be","LOG_EXECUTION_ID":"true"},"maxInstanceCount":100,"ingressSettings":"ALLOW_ALL","uri":"https://student-qb-be-t4m7k7vxoa-uc.a.run.app","serviceAccountEmail":"626910663524-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"secretEnvironmentVariables":[{"key":"SERVICE_ACCOUNT","projectId":"studentquestionbank-2b545","secret":"SERVICE_ACCOUNT","version":"1"}],"revision":"student-qb-be-00016-pin","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2025-01-03T06:49:38.388890846Z","labels":{"firebase-functions-hash":"8edb6b5631cf167f16fa6abc2cd9f63b3695fa0c","deployment-tool":"cli-firebase"},"environment":"GEN_2","url":"https://us-central1-studentquestionbank-2b545.cloudfunctions.net/student_qb_be","createTime":"2024-12-25T05:15:48.137637244Z"}]}
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[debug] [2025-01-03T08:10:29.939Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:29.940Z] Checked if tokens are valid: true, expires at: 1735895416401
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[debug] [2025-01-03T08:10:29.940Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:29.940Z] Checked if tokens are valid: true, expires at: 1735895416401
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2025-01-03T08:10:29.940Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:29.940Z] Checked if tokens are valid: true, expires at: 1735895416401
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[debug] [2025-01-03T08:10:29.940Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:29.940Z] Checked if tokens are valid: true, expires at: 1735895416401
+[debug] [2025-01-03T08:10:29.940Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/run.googleapis.com [none]
+[debug] [2025-01-03T08:10:29.940Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/run.googleapis.com x-goog-quota-user=projects/studentquestionbank-2b545
+[debug] [2025-01-03T08:10:29.942Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/eventarc.googleapis.com [none]
+[debug] [2025-01-03T08:10:29.942Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/eventarc.googleapis.com x-goog-quota-user=projects/studentquestionbank-2b545
+[debug] [2025-01-03T08:10:29.943Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/pubsub.googleapis.com [none]
+[debug] [2025-01-03T08:10:29.943Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/pubsub.googleapis.com x-goog-quota-user=projects/studentquestionbank-2b545
+[debug] [2025-01-03T08:10:29.944Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/storage.googleapis.com [none]
+[debug] [2025-01-03T08:10:29.945Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/studentquestionbank-2b545/services/storage.googleapis.com x-goog-quota-user=projects/studentquestionbank-2b545

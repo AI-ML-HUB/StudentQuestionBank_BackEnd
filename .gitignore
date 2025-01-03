@@ -5,3 +5,4 @@ __pycache__/
 functions/venv
 .vscode
 functions/serviceaccount.json
+service_account.json
