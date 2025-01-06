@@ -1,0 +1,15 @@
+### Get Request
+GET http://127.0.0.1:5001/studentquestionbank-2b545/us-central1/student_qb_be
+Content-Type: application/json
+
+### Get Processed files
+GET http://127.0.0.1:5001/studentquestionbank-2b545/us-central1/student_qb_be/prcessed_files
+Content-Type: application/json
+
+### Post Request - FirebaseFunctions
+POST http://127.0.0.1:5001/studentquestionbank-2b545/us-central1/student_qb_be/file-uploaded
+Content-Type: application/json
+
+### Get Request FireStore
+GET http://127.0.0.1:8080/v1/projects/studentquestionbank-2b545/databases/(default)/documents/questions/image_folder
+Content-Type: application/json
