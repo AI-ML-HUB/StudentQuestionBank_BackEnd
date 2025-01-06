@@ -30,16 +30,3 @@ Content-Type: application/json
 POST https://student-qb-be-t4m7k7vxoa-uc.a.run.app/file-uploaded
 Content-Type: application/json
 
-{
-    "question": "What is the derivative of x^2 + 3x + 2?"
-}
-
-### Watcher
-POST https://www.googleapis.com/drive/v3/files/1-vdHwarvsDgqTCGZaheZMEz0js4e3sYl/watch
-Content-Type: application/json
-
-{
-    "id": "student-qb-images-upload-chnl",
-    "type": "web_hook",
-    "address": "https://student-qb-be-t4m7k7vxoa-uc.a.run.app/file-uploaded"
-}

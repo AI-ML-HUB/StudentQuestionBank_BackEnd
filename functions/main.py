@@ -5,6 +5,7 @@
 from firebase_functions import https_fn
 from firebase_admin import initialize_app
 from firebase_functions.params import SecretParam
+from google.cloud import firestore
 
 import flask
 from flask import request, jsonify
@@ -25,7 +26,6 @@ FOLDER_ID = '1-vdHwarvsDgqTCGZaheZMEz0js4e3sYl'
 
 initialize_app()
 
-# Set up Google Drive API
 
 
 
@@ -45,20 +45,77 @@ def file_uploaded():
         
 
         # Get file metadata
-        uploaded_files = get_recent_files_in_folder()
-        for file in uploaded_files:
-            print(f"New file uploaded: {file['name']} (ID: {file['id']})")
+        new_files = get_recent_files_in_folder()
+        updated_file_data, filtered_new_files = filter_files(new_files)
+        for file in filtered_new_files:
+            process_file(file)
+            #delete_file(file)
 
-        # Optional: Download the file
-        #request_file = drive_service.files().get_media(fileId=file_id)
-        #download_file(file_name, request_file)
+        # Save the updated list to Firestore
+        save_new_files(get_doc_ref(), updated_file_data)
 
-        return f"Files processed successfully.", 200
+        return f"All Files processed successfully.", 200
 
     except Exception as e:
         print(f"Error processing notification: {e}")
         return jsonify({"status": "error", "message": "Failed to process notification."}), 500
 
+def process_file(file):
+    print(f"Processing file: {file['name']} (ID: {file['id']})")
+
+def filter_files(new_files):
+    # Prepare new file data
+    new_file_data = [{"id": file["id"], "name": file["name"]} for file in new_files]
+
+    # Firestore reference
+    doc_ref = get_doc_ref()
+    
+    # Fetch existing data from Firestore
+    existing_data = doc_ref.get().to_dict()
+    
+    if existing_data and "processed_files" in existing_data:
+        # Create a set of existing file IDs
+        existing_file_ids = {file["id"] for file in existing_data["processed_files"]}
+
+        # Filter out files that already exist
+        filtered_new_files = [file for file in new_file_data if file["id"] not in existing_file_ids]
+
+        # Merge the new files into the existing list
+        updated_file_data = existing_data["processed_files"] + filtered_new_files
+    else:
+        # No existing data, use the new data directly
+        filtered_new_files = new_file_data
+        updated_file_data = filtered_new_files
+
+    return updated_file_data, filtered_new_files
+
+def save_new_files(doc_ref, updated_file_data):
+    doc_ref.set({"processed_files": updated_file_data})
+
+def get_doc_ref():    
+    # Firestore client
+    firestore_client = firestore.Client()
+    return firestore_client.collection("questions").document("image_folder")
+
+def delete_file(file):
+    """
+    delete file from drive
+    """
+    
+    try:
+       # Load credentials from a service account JSON file
+        credentials = get_default_cred()
+
+        # Build the Google Drive API client
+        drive_service = build('drive', 'v3', credentials=credentials) 
+        
+        # Delete the file using Google Drive API
+        drive_service.files().delete(fileId=file['id']).execute()
+        
+        print(f"Deleted file: {file['name']} (ID: {file['id']})")
+    except Exception as error:
+        print(f"Error deleting file: {error}")    
+    
 def get_recent_files_in_folder():
     """
     Fetch recently uploaded files in a folder.
