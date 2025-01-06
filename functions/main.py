@@ -15,7 +15,7 @@ from firestore_util import get_doc_ref, get_processed_files
 from ai_tasks import getText
 from firestore_util import filter_files, save_new_files
 from ai_tasks import process_file
-from google_drive_util import SERVICE_ACCOUNT, get_recent_files_in_folder
+from google_drive_util import SERVICE_ACCOUNT, get_recent_files_in_folder, download_file
 
 
 
@@ -50,6 +50,7 @@ def file_uploaded():
         new_files = get_recent_files_in_folder()
         updated_file_data, filtered_new_files = filter_files(new_files)
         for file in filtered_new_files:
+            download_file(file)
             process_file(file)
             #delete_file(file)
 

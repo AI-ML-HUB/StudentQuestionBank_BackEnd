@@ -8,3 +8,4 @@ functions/serviceaccount.json
 service_account.json
 functions/firestore-debug.log
 firestore-debug.log
+firebase-debug.log

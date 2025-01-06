@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+import base64
 
 
 # Load environment variables from .env file
@@ -31,13 +32,30 @@ def solve_question():
         if not question:
             return jsonify({"error": "Question is required"}), 400
 
+        # Getting the base64 string
+        base64_image = encode_image('1x7A4hzlAVkMuJsfPJ62TQfiwQbCWQoHf')
         # Query OpenAI API
         response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[{"role": "user", "content": f"Explain step-by-step how to solve this question: {question}"}],
-            max_tokens=500,
-            temperature=0.7
-            )
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Extract and format questions from the image",
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{base64_image}",                                
+                                "detail": "low"
+                            },
+                        },
+                    ],
+                }
+            ],
+        )
 
         # Extract the answer
         answer = response.choices[0].message.content
@@ -47,6 +65,10 @@ def solve_question():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# Function to encode the image
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode("utf-8")
 # Run the server
 if __name__ == '__main__':
     app.run(debug=True)

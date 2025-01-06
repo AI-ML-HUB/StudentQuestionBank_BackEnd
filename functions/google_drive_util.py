@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import json
+import os
 
 from firebase_functions.params import SecretParam
 
@@ -70,11 +71,7 @@ def get_recent_files_in_folder():
     :return: List of recently added files.
     """
     try:
-        # Load credentials from a service account JSON file
-        credentials = get_default_cred()
-
-        # Build the Google Drive API client
-        service = build('drive', 'v3', credentials=credentials)
+        service = get_service()
 
         # Define a time window to identify recent changes (e.g., last 8 hours)
         time_window = datetime.now(timezone.utc) - timedelta(minutes=480)
@@ -82,7 +79,6 @@ def get_recent_files_in_folder():
 
         # Query for files in the folder modified within the time window
         query = f"'{FOLDER_ID}' in parents and trashed = false and modifiedTime > '{time_window_str}'"
-        print(f"google account - {get_service_account_email(credentials)}")
         print(f"Query - '{query}'")
         results = service.files().list(q=query, fields="files(id, name)").execute()
 
@@ -92,9 +88,35 @@ def get_recent_files_in_folder():
         print(f"Error fetching recent files: {error}")
         return []
 
+def get_service():
+    # Load credentials from a service account JSON file
+    credentials = get_default_cred()
 
-def download_file(file_name, request_file):
-    with open(file_name, 'wb') as file:
+    # Build the Google Drive API client
+    service = build('drive', 'v3', credentials=credentials)
+    print(f"google account - {get_service_account_email(credentials)}")
+    return service
+
+
+def download_file(file):
+    print(f"Downloading file: {file['name']} (ID: {file['id']})")
+    file_name = file['name']
+    file_id = file['id']
+
+    service = get_service()
+    request_file = service.files().get_media(fileId=file_id)
+    
+    # Get the current directory
+    current_dir = os.getcwd()
+    file_path = os.path.join(file_id)
+    
+    
+    # delete the file if it exists already
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        
+        
+    with open(file_path, 'wb') as file:
         downloader = MediaIoBaseDownload(file, request_file)
         done = False
         while not done:

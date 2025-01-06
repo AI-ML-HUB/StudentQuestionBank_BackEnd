@@ -6,7 +6,7 @@ Content-Type: application/json
 GET http://127.0.0.1:5001/studentquestionbank-2b545/us-central1/student_qb_be/prcessed_files
 Content-Type: application/json
 
-### Post Request - FirebaseFunctions
+### Post Request - upload image
 POST http://127.0.0.1:5001/studentquestionbank-2b545/us-central1/student_qb_be/file-uploaded
 Content-Type: application/json
 
