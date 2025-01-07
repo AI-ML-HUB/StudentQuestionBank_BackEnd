@@ -11,10 +11,8 @@ import os
 
 from google.auth import default
 
-from firestore_util import get_doc_ref, get_processed_files
-from ai_tasks import getText
-from firestore_util import filter_files, save_new_files
-from ai_tasks import process_file
+from firestore_util import get_doc_ref, get_phy_questions, get_processed_files, filter_files, save_new_files, save_new_questions
+from ai_tasks import getText, process_file, OPENAI_API_KEY
 from google_drive_util import SERVICE_ACCOUNT, get_recent_files_in_folder, download_file
 
 
@@ -31,6 +29,10 @@ app = flask.Flask(__name__)
 def hello_world() :
     return getText()
 
+@app.get("/phy_questions")
+def get_phyq():
+    return jsonify(get_phy_questions())
+
 @app.get("/prcessed_files")
 def prcessed_files() :
     # Fetch existing data from Firestore
@@ -41,18 +43,15 @@ def prcessed_files() :
 @app.route('/file-uploaded', methods=['POST'])
 def file_uploaded():
     
-    #get_drive_service()
 
     try:
-        
-
         # Get file metadata
         new_files = get_recent_files_in_folder()
         updated_file_data, filtered_new_files = filter_files(new_files)
         for file in filtered_new_files:
-            download_file(file)
-            process_file(file)
-            #delete_file(file)
+            file_bytes = download_file(file)
+            questions = process_file(file, file_bytes)
+            save_new_questions(questions)
 
         # Save the updated list to Firestore
         save_new_files(get_doc_ref(), updated_file_data)

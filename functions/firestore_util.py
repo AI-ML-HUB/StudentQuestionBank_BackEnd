@@ -1,5 +1,7 @@
 from google.cloud import firestore
 
+from questions import questions_to_dict 
+
 
 def get_doc_ref():
     # Firestore client
@@ -44,3 +46,43 @@ def filter_files(new_files):
 
 def save_new_files(doc_ref, updated_file_data):
     doc_ref.set({"processed_files": updated_file_data})
+    
+    
+def save_new_questions(questions):
+    
+    docref = get_phyq_doc_ref()
+    
+    #check if document already exists otherwise create it
+    snapshot = docref.get()
+    if snapshot.exists:
+        data = snapshot.to_dict()
+        if 'questionlist' in data:
+            # Append new values to an array field
+            docref.update({
+                "questionlist" : firestore.ArrayUnion(questions_to_dict(questions))
+            })
+        else:
+            # Create the array field with the new object
+            docref.update({
+                "questionlist" : questions_to_dict(questions)
+            })
+    else:
+        # Handle the case where the document does not exist
+        # For example, create the document with the array field
+        docref.set({
+            'questionlist': questions_to_dict(questions)
+        })
+    
+    print("physics questions updated")
+
+def get_phyq_doc_ref():
+    # Firestore client
+    firestore_client = firestore.Client()
+    docref=  firestore_client.collection("questions").document("phy_questions")
+    return docref
+
+
+def get_phy_questions():
+    doc_ref = get_phyq_doc_ref()
+    
+    return doc_ref.get().to_dict()

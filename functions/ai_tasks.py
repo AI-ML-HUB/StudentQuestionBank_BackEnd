@@ -1,10 +1,11 @@
 
-import pytesseract
-from PIL import Image
 from openai import OpenAI
 import base64
 
 from firebase_functions.params import IntParam, StringParam
+
+
+from questions import QuestionList
 
 
 OPENAI_API_KEY = StringParam("OPENAI_API_KEY")
@@ -12,43 +13,19 @@ OPENAI_API_KEY = StringParam("OPENAI_API_KEY")
 def getText() :
     return "Hello World! OpenAI Question Bank"
 
-
-# Extract text from image using Tesseract
-def extract_text_from_image(image_path):
-    image = Image.open(image_path)
-    text = pytesseract.image_to_string(image)
-    return text
-
-# Process text to extract questions using GPT API
-def get_questions_from_text(text):
-    
-    client = OpenAI(api_key=OPENAI_API_KEY)
-    prompt = f"Extract and format questions from the following text:\n\n{text}\n\nReturn only the questions, one per line."
-    try:
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=prompt,
-            max_tokens=500
-        )
-        questions = response.choices[0].text.strip().split("\n")
-        return [q.strip() for q in questions if q.strip()]
-    except Exception as e:
-        print(f"Error with OpenAI API: {e}")
-        return []
     
 # Function to encode the image
-def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode("utf-8")
+def encode_image(file_bytes):
+    return base64.b64encode(file_bytes).decode("utf-8")
     
 # Process text to extract questions using GPT API
-def get_questions_from_image(image_path):
+def get_questions_from_image(file_bytes):
     # Getting the base64 string
-    base64_image = encode_image(image_path)
+    base64_image = encode_image(file_bytes)
     
-    client = OpenAI(api_key=OPENAI_API_KEY)
+    client = OpenAI(api_key=OPENAI_API_KEY.value)
     try:
-        response = client.chat.completions.create(
+        response = client.beta.chat.completions.parse(
             model="gpt-4o-mini",
             messages=[
                 {
@@ -60,23 +37,29 @@ def get_questions_from_image(image_path):
                         },
                         {
                             "type": "image_url",
-                            "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{base64_image}",                                
+                                "detail": "low"
+                            },
                         },
                     ],
                 }
             ],
+            response_format=QuestionList
         )
-        questions = response.choices[0].text.strip().split("\n")
-        return [q.strip() for q in questions if q.strip()]
+        parsed_response = response.choices[0].message.parsed
+        questions = parsed_response.questions
+        
+        return questions
     except Exception as e:
         print(f"Error with OpenAI API: {e}")
         return []
 
 
-def process_file(file):
+def process_file(file, file_bytes):
     print(f"Processing file: {file['name']} (ID: {file['id']})")
     
     #image file downloaded with fileid as name of the file
-    questions = get_questions_from_image(file['id'])
+    questions = get_questions_from_image(file_bytes)
     
-    print(questions)
+    return questions

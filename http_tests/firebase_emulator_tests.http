@@ -6,10 +6,18 @@ Content-Type: application/json
 GET http://127.0.0.1:5001/studentquestionbank-2b545/us-central1/student_qb_be/prcessed_files
 Content-Type: application/json
 
+### Get phy questions
+GET http://127.0.0.1:5001/studentquestionbank-2b545/us-central1/student_qb_be/phy_questions
+Content-Type: application/json
+
 ### Post Request - upload image
 POST http://127.0.0.1:5001/studentquestionbank-2b545/us-central1/student_qb_be/file-uploaded
 Content-Type: application/json
 
-### Get Request FireStore
+### Get Request FireStore - processed files
 GET http://127.0.0.1:8080/v1/projects/studentquestionbank-2b545/databases/(default)/documents/questions/image_folder
+Content-Type: application/json
+
+### Get Request FireStore - questions
+GET http://127.0.0.1:8080/v1/projects/studentquestionbank-2b545/databases/(default)/documents/questions/phy_questions
 Content-Type: application/json

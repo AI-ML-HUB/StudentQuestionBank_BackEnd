@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 import json
 import os
+from io import BytesIO
 
 from firebase_functions.params import SecretParam
 
@@ -106,19 +107,20 @@ def download_file(file):
     service = get_service()
     request_file = service.files().get_media(fileId=file_id)
     
-    # Get the current directory
-    current_dir = os.getcwd()
-    file_path = os.path.join(file_id)
+    
+    # Create a BytesIO buffer to store the file content
+    buffer = BytesIO()
     
     
-    # delete the file if it exists already
-    if os.path.exists(file_path):
-        os.remove(file_path)
         
-        
-    with open(file_path, 'wb') as file:
-        downloader = MediaIoBaseDownload(file, request_file)
-        done = False
-        while not done:
-            status, done = downloader.next_chunk()
-            print(f"Download progress: {int(status.progress() * 100)}%")
+    downloader = MediaIoBaseDownload(buffer, request_file)
+    done = False
+    while not done:
+        status, done = downloader.next_chunk()
+        print(f"Download progress: {int(status.progress() * 100)}%")
+    
+    # Get the content as bytes
+    buffer.seek(0)  # Reset the buffer's position
+    file_bytes = buffer.read()
+
+    return file_bytes

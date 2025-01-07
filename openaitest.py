@@ -3,39 +3,34 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 import base64
+import os
+import traceback
+
+from pydantic import BaseModel
 
 
 # Load environment variables from .env file
 load_dotenv()
 
-
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-import os
+class Question(BaseModel):
+    question_statement : str
+    options : list[str]
+    
+    
+class QuestionList(BaseModel):
+    questions : list[Question]
 
 # Get OpenAI API key from environment
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Initialize Flask app
-app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return "Hello, Google Cloud Workstation!"
-
-# Route to handle question solving
-@app.route('/solve-question', methods=['POST'])
-def solve_question():
+def get_question():
     try:
-        # Get the question from the request
-        data = request.json
-        question = data.get('question')
-
-        if not question:
-            return jsonify({"error": "Question is required"}), 400
-
+        
         # Getting the base64 string
         base64_image = encode_image('1x7A4hzlAVkMuJsfPJ62TQfiwQbCWQoHf')
         # Query OpenAI API
-        response = client.chat.completions.create(
+        response = client.beta.chat.completions.parse(
             model="gpt-4o-mini",
             messages=[
                 {
@@ -55,15 +50,18 @@ def solve_question():
                     ],
                 }
             ],
+            response_format=QuestionList
         )
 
         # Extract the answer
-        answer = response.choices[0].message.content
+        parsed_response = response.choices[0].message.parsed
+        questions = parsed_response.questions
+        print(f"Type of questions : {type(questions)}")
 
-        return jsonify({"question": question, "answer": answer}), 200
+        return questions
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return ''.join(traceback.format_exception(None, e, e.__traceback__))
 
 # Function to encode the image
 def encode_image(image_path):
@@ -71,4 +69,4 @@ def encode_image(image_path):
         return base64.b64encode(image_file.read()).decode("utf-8")
 # Run the server
 if __name__ == '__main__':
-    app.run(debug=True)
+    print(get_question())
