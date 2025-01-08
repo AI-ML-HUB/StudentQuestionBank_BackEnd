@@ -39,7 +39,7 @@ def get_questions_from_image(file_bytes):
                             "type": "image_url",
                             "image_url": {
                                 "url": f"data:image/jpeg;base64,{base64_image}",                                
-                                "detail": "low"
+                                "detail": "high"
                             },
                         },
                     ],
