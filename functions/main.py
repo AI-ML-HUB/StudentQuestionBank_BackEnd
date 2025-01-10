@@ -51,7 +51,7 @@ def file_uploaded():
         for file in filtered_new_files:
             file_bytes = download_file(file)
             questions = process_file(file, file_bytes)
-            save_new_questions(questions)
+            save_new_questions(questions, file['id'])
 
         # Save the updated list to Firestore
         save_new_files(get_doc_ref(), updated_file_data)

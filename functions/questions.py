@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class Question(BaseModel):
     question_statement : str
     options : list[str]
+    correct_option : int
 
 
 class QuestionList(BaseModel):
@@ -23,10 +24,11 @@ def to_dict(obj):
         return obj
 
 
-def questions_to_dict(questions):
+def questions_to_dict(questions, fileId):
     q_list = to_dict(questions)
 
     # add random q_id
     for q in q_list:
         q["q_id"] = str(uuid.uuid4())
+        q["file_id"] = str(fileId)
     return q_list

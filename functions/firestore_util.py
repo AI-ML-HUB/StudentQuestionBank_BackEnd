@@ -48,7 +48,7 @@ def save_new_files(doc_ref, updated_file_data):
     doc_ref.set({"processed_files": updated_file_data})
     
     
-def save_new_questions(questions):
+def save_new_questions(questions, fileId):
     
     docref = get_phyq_doc_ref()
     
@@ -59,18 +59,18 @@ def save_new_questions(questions):
         if 'questionlist' in data:
             # Append new values to an array field
             docref.update({
-                "questionlist" : firestore.ArrayUnion(questions_to_dict(questions))
+                "questionlist" : firestore.ArrayUnion(questions_to_dict(questions, fileId))
             })
         else:
             # Create the array field with the new object
             docref.update({
-                "questionlist" : questions_to_dict(questions)
+                "questionlist" : questions_to_dict(questions, fileId)
             })
     else:
         # Handle the case where the document does not exist
         # For example, create the document with the array field
         docref.set({
-            'questionlist': questions_to_dict(questions)
+            'questionlist': questions_to_dict(questions, fileId)
         })
     
     print("physics questions updated")

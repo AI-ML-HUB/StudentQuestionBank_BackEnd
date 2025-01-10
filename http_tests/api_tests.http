@@ -10,3 +10,6 @@ Content-Type: application/json
 POST https://student-qb-be-t4m7k7vxoa-uc.a.run.app/file-uploaded
 Content-Type: application/json
 
+### Get phy questions
+GET https://student-qb-be-t4m7k7vxoa-uc.a.run.app/phy_questions
+Content-Type: application/json
