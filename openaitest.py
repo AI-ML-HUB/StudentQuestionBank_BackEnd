@@ -6,7 +6,7 @@ import base64
 import os
 import traceback
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 # Load environment variables from .env file
@@ -28,7 +28,7 @@ def get_question():
     try:
         
         # Getting the base64 string
-        base64_image = encode_image('1x7A4hzlAVkMuJsfPJ62TQfiwQbCWQoHf')
+        base64_image = encode_image('test_images/Scanned_20250110-0744.jpg')
         # Query OpenAI API
         response = client.beta.chat.completions.parse(
             model="gpt-4o-mini",
