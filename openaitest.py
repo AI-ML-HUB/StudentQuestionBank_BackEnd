@@ -15,6 +15,7 @@ load_dotenv()
 class Question(BaseModel):
     question_statement : str
     options : list[str]
+    is_MCQ : bool = Field(None, description="Does this question contains any options?")
     
     
 class QuestionList(BaseModel):
